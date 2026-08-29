@@ -1,75 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Pedidos</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="app">
+  <div class="header">
+    <h1>Gestión de Pedidos</h1>
+    <p>Sistema Distribuido Tolerante a Fallos</p>
+  </div>
 
-    <!-- Header -->
-    <div class="header">
-      <div class="header-left">
-        <h1><i class="ti ti-package" aria-hidden="true"></i>Gestión de pedidos</h1>
-        <p>Panel de control y administración</p>
+  <div class="container">
+
+    <!-- FORM PANEL -->
+    <div class="form-panel" id="formPanel">
+      <span class="edit-mode-badge">● Editando</span>
+      <h2 id="formTitle">Nuevo Pedido</h2>
+
+      <div class="form-group">
+        <label>Cliente</label>
+        <input name="customer" id="f-customer" type="text" placeholder="Nombre del cliente" required>
       </div>
-    </div>
 
-    <!-- Métricas -->
-    <div class="metrics" id="metrics"></div>
+      <div class="form-group">
+        <label>Producto</label>
+        <input name="product" id="f-product" type="text" placeholder="Nombre del producto" required>
+      </div>
 
-    <!-- Barra de herramientas -->
-    <div class="toolbar">
-      <input type="text" id="search" placeholder="Buscar por cliente o producto..." oninput="render()" />
-      <select id="filter-state" onchange="render()">
-        <option value="">Todos los estados</option>
-        <option value="Pendiente">Pendiente</option>
-        <option value="Procesando">Procesando</option>
-        <option value="Enviado">Enviado</option>
-        <option value="Entregado">Entregado</option>
-        <option value="Cancelado">Cancelado</option>
-      </select>
-      <button class="btn btn-primary" onclick="openCreate()">
-        <i class="ti ti-plus" aria-hidden="true"></i> Nuevo pedido
+      <div class="form-group">
+        <label>Cantidad</label>
+        <input name="amount" id="f-amount" type="number" placeholder="0" min="1" required>
+      </div>
+
+      <div class="form-group">
+        <label>Estado</label>
+        <select name="state" id="f-state">
+          <option value="Pendiente">Pendiente</option>
+          <option value="En proceso">En proceso</option>
+          <option value="Enviado">Enviado</option>
+          <option value="Entregado">Entregado</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha</label>
+        <input name="start_date" id="f-date" type="date" required>
+      </div>
+
+      <button class="btn btn-primary" id="btnSubmit" onclick="submitForm()">
+        Guardar Pedido
+      </button>
+      <button class="btn btn-cancel" id="btnCancel" onclick="cancelEdit()" style="display:none">
+        Cancelar edición
       </button>
     </div>
 
-    <!-- Tabla -->
-    <div class="table-wrap">
+    <!-- TABLE PANEL -->
+    <div class="table-panel">
+      <div class="table-header">
+        <h2>Lista de Pedidos</h2>
+        <span class="count-badge" id="countBadge">0 pedidos</span>
+      </div>
+
       <table>
         <thead>
           <tr>
-            <th class="col-id" onclick="sortBy('id')"># <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-customer" onclick="sortBy('customer')">Cliente <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-product" onclick="sortBy('product')">Producto <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-amount" onclick="sortBy('amount')">Monto <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-state" onclick="sortBy('state')">Estado <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-date" onclick="sortBy('start_date')">Fecha <i class="ti ti-selector" aria-hidden="true"></i></th>
-            <th class="col-actions">Acciones</th>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
           </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tablaPedidos"></tbody>
       </table>
-
-      <!-- Paginación -->
-      <div class="pagination">
-        <span id="pag-info"></span>
-        <div class="page-btns" id="pag-btns"></div>
-      </div>
     </div>
-
   </div>
 
-  <!-- Contenedor de modal -->
-  <div id="modal-container"></div>
-
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
-
   <script src="app.js"></script>
+
 </body>
 </html>
